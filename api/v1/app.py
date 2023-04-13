@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 '''Module to return the status of API'''
+from flask import jsonify
 from flask import Flask
 import os
 from api.v1.views import app_views
@@ -8,6 +9,11 @@ from models import storage
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
+
+
+@app.errorhandler(404)
+def error_404(error):
+    return jsonify({"error": "Not found"}), 404
 
 
 @app.teardown_appcontext
